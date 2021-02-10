@@ -1,24 +1,23 @@
 <template>
   <div>
-    <!--router-link :to="{ name: 'login' }">Go To Login Page</router-link-->
-    <v-container>
+    <v-row>
+      <v-spacer/>
       <v-col
         cols="12"
-      >
-        <v-card>
-          <v-card-title>{{ title }}</v-card-title>
-          <v-card-text>
-            <v-text-field
-            v-model="todoText"
-            placeholder="What needs to be done?"
-            @keyup.enter="createTodo"
-            autofocus
-            />
-            <tasks/>
-          </v-card-text>
-        </v-card>
+        sm="7"
+        md="6"
+        >
+        <v-text-field solo id="new-task"
+        v-model="todoText"
+        placeholder="What needs to be done?"
+        @keyup.enter="createTodo"
+        autofocus
+        />
+        <div class="outer-label thic">THINGS TO DO</div>
+        <tasks/>
       </v-col>
-    </v-container>
+      <v-spacer/>
+    </v-row>
     <!-- <footnote /> -->
   </div>
 </template>
@@ -40,7 +39,7 @@ export default {
   },
   data() {
     return {
-      title: 'My Todo List',
+      title: 'THINGS TO DO',
       todoText: '',
       editing: null,
     };

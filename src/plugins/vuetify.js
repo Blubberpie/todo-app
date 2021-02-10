@@ -3,6 +3,8 @@ import Vuetify from 'vuetify/lib/framework';
 
 Vue.use(Vuetify);
 
-const options = {};
+const options = {
+  theme: { disable: true },
+};
 
 export default new Vuetify(options);

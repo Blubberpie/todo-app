@@ -1,18 +1,20 @@
 <template>
   <div>
     <v-list
+      class="transparent"
       v-for="task in todos"
       v-bind:key="task.id"
     >
-      <v-list-item>
-        <v-list-item-action>
-          <v-checkbox :input-value="task.isDone"/>
-        </v-list-item-action>
-
-        <v-list-item-content>
-          <v-list-item-title v-text="task.text"/>
-        </v-list-item-content>
-      </v-list-item>
+      <v-card class="task-card">
+        <v-list-item>
+          <v-list-item-action>
+            <v-checkbox :input-value="task.isDone"/>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title class="thicc task-text" v-text="task.text"/>
+          </v-list-item-content>
+        </v-list-item>
+      </v-card>
     </v-list>
   </div>
 </template>
