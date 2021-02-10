@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div>
     <!--router-link :to="{ name: 'login' }">Go To Login Page</router-link-->
     <v-container>
       <v-col
