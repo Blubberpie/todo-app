@@ -13,6 +13,7 @@
           <v-list-item-content>
             <v-list-item-title class="thicc task-text" v-text="task.text"/>
           </v-list-item-content>
+          <v-btn @click="destroyTask(task)"><v-icon>mdi-delete</v-icon></v-btn>
         </v-list-item>
       </v-card>
       <subtask v-bind:subtasks="task.subtasks"/>
@@ -31,8 +32,8 @@ export default {
     };
   },
   methods: {
-    destroyTodo(task) {
-      this.$store.dispatch('todos/destroyTodo', task);
+    destroyTask(task) {
+      this.$store.dispatch('todos/destroyTask', task);
     },
     startEditing(task) {
       this.editing = task;

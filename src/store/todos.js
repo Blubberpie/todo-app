@@ -48,7 +48,7 @@ export default {
     clearCompleted(context) {
       context.commit('setTodos', context.state.todos.filter((todo) => !todo.isDone));
     },
-    destroyTodo(context, todo) {
+    destroyTask(context, todo) {
       const index = context.state.todos.indexOf(todo);
       context.commit('removeTodo', index);
     },
