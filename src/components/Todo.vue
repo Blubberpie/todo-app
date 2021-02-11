@@ -14,7 +14,7 @@
         autofocus
         />
         <div class="outer-label thic">THINGS TO DO</div>
-        <tasks/>
+        <tasks :tasks="tasks"/>
       </v-col>
       <v-spacer/>
     </v-row>
@@ -24,13 +24,11 @@
 
 <script>
 
+import firebase from 'firebase/app';
+import 'firebase/database';
 import Tasks from './Task.vue';
-// import firebase from 'firebase/app';
-// import 'firebase/database';
 
-// const LOCAL_STORAGE_KEY = "todo-app-vue";
-
-// const database = firebase.database();
+const database = firebase.database();
 
 export default {
   components: {
@@ -41,20 +39,24 @@ export default {
       title: 'THINGS TO DO',
       todoText: '',
       editing: null,
+      tasks: {},
+      tasksRef: null,
     };
+  },
+  created() {
+    this.tasksRef = database.ref(`/users/${this.$store.state.auth.user.uid}`);
+  },
+  mounted() {
+    this.tasksRef.on('value', (snapshot) => {
+      this.tasks = snapshot.val();
+    });
   },
   methods: {
     createTodo() {
-      this.$store.dispatch('todos/createTodo', { text: this.todoText.trim(), isDone: false });
-      this.todoText = '';
+      this.tasksRef.push({ text: this.todoText.trim(), isDone: false });
     },
     clearCompleted() {
       this.$store.dispatch('todos/clearCompleted');
-    },
-  },
-  computed: {
-    todos() {
-      return this.$store.state.todos.todos;
     },
   },
 };

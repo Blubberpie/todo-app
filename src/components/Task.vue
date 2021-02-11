@@ -2,7 +2,7 @@
   <div>
     <v-list
       class="transparent"
-      v-for="task in todos"
+      v-for="task in tasks"
       v-bind:key="task.id"
     >
       <v-card class="task-card">
@@ -35,6 +35,7 @@ export default {
       editing: null,
     };
   },
+  props: ['tasks'],
   methods: {
     destroyTask(task) {
       this.$store.dispatch('todos/destroyTask', task);
@@ -56,11 +57,6 @@ export default {
     onDestroySubtask(task, subtask) {
       console.log('asdf', task, subtask);
       this.$store.dispatch('todos/destroySubtask', task, subtask);
-    },
-  },
-  computed: {
-    todos() {
-      return this.$store.state.todos.todos;
     },
   },
 };

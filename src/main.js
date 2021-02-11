@@ -1,4 +1,6 @@
 import '@/plugins/firebase';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
@@ -9,9 +11,26 @@ import './styles/styles.scss';
 
 Vue.config.productionTip = false;
 
-new Vue({
-  router,
-  store,
-  vuetify,
-  render: (h) => h(App),
-}).$mount('#app');
+let isInitialized = false;
+
+new Promise((resolve) => {
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      Vue.$store.dispatch('auth/setAuthenticatedUser', user);
+    } else {
+      Vue.$store.dispatch('auth/setAuthenticatedUser', user);
+      Vue.$router.push({ name: 'login' }).catch(() => {});
+    }
+    if (!isInitialized) {
+      resolve();
+    }
+  });
+}).then(() => {
+  isInitialized = true;
+  new Vue({
+    render: (h) => h(App),
+    router,
+    store,
+    vuetify,
+  }).$mount('#app');
+});
