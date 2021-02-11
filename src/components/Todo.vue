@@ -23,9 +23,8 @@
 </template>
 
 <script>
-// import TodoFooter from '@/components/TodoFooter.vue';
+
 import Tasks from './Task.vue';
-// import Footnote from './Footnote.vue';
 // import firebase from 'firebase/app';
 // import 'firebase/database';
 

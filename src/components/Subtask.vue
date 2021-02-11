@@ -2,7 +2,7 @@
   <div>
     <v-list
       class="sub-list"
-      v-for="subtask in this.subtasks"
+      v-for="subtask in this.task.subtasks"
       v-bind:key="subtask.id"
     >
       <v-list-item>
@@ -12,6 +12,7 @@
         <v-list-item-content>
           <v-list-item-title class="thicc task-text" v-text="subtask.text"/>
         </v-list-item-content>
+        <v-btn @click="destroySubtask(subtask)"><v-icon>mdi-delete</v-icon></v-btn>
       </v-list-item>
     </v-list>
   </div>
@@ -21,8 +22,13 @@
 export default {
   name: 'Subtask',
   props: {
-    subtasks: {
-      type: Array,
+    task: {
+      type: Object,
+    },
+  },
+  methods: {
+    destroySubtask(subtask) {
+      this.$emit('destroySubtask', this.task, subtask);
     },
   },
 };

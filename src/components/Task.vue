@@ -13,10 +13,14 @@
           <v-list-item-content>
             <v-list-item-title class="thicc task-text" v-text="task.text"/>
           </v-list-item-content>
+          <v-btn @click="newSubtask(task)"><v-icon>mdi-plus-circle</v-icon></v-btn>
           <v-btn @click="destroyTask(task)"><v-icon>mdi-delete</v-icon></v-btn>
         </v-list-item>
       </v-card>
-      <subtask v-bind:subtasks="task.subtasks"/>
+      <subtask
+        v-bind:task="task"
+        @destroySubtask="onDestroySubtask"
+      />
     </v-list>
   </div>
 </template>
@@ -48,6 +52,10 @@ export default {
     },
     cancelEditing() {
       this.editing = null;
+    },
+    onDestroySubtask(task, subtask) {
+      console.log('asdf', task, subtask);
+      this.$store.dispatch('todos/destroySubtask', task, subtask);
     },
   },
   computed: {

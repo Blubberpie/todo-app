@@ -43,6 +43,9 @@ export default {
     removeTodo(state, index) {
       state.todos.splice(index, 1);
     },
+    removeSubtask(state, taskIndex, subTaskIndex) {
+      state.todos[taskIndex].subtasks.splice(subTaskIndex, 1);
+    },
   },
   actions: {
     clearCompleted(context) {
@@ -54,6 +57,11 @@ export default {
     },
     createTodo(context, todo) {
       context.commit('addTodo', todo);
+    },
+    destroySubtask(context, task, subtask) {
+      const taskIndex = context.state.todos.indexOf(task);
+      const subTaskIndex = context.state.todos[taskIndex].subtasks.indexOf(subtask);
+      context.commit('removeSubtask', taskIndex, subTaskIndex);
     },
   },
   getters: {
