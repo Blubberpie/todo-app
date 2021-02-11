@@ -15,15 +15,16 @@
           </v-list-item-content>
         </v-list-item>
       </v-card>
+      <subtask v-bind:subtasks="task.subtasks"/>
     </v-list>
   </div>
 </template>
 
 <script>
-// import Subtask from './Subtask.vue';
+import Subtask from './Subtask.vue';
 
 export default {
-  // components: { Subtask },
+  components: { Subtask },
   data() {
     return {
       editing: null,

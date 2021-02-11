@@ -1,9 +1,36 @@
 export default {
   state: {
     todos: [
-      { text: 'Do this', isDone: true, id: 1 },
-      { text: 'Do that', isDone: false, id: 2 },
-      { text: 'Do those', isDone: false, id: 3 },
+      {
+        text: 'Do this',
+        isDone: true,
+        id: 1,
+        subtasks: [
+          { text: 'this for this', isDone: true, id: 1 },
+          { text: 'that for this', isDone: true, id: 2 },
+        ],
+      },
+      {
+        text: 'Do that',
+        isDone: false,
+        id: 2,
+        subtasks: [
+          { text: 'this for that', isDone: false, id: 1 },
+          { text: 'that for that', isDone: true, id: 2 },
+          { text: 'those for that', isDone: false, id: 3 },
+        ],
+      },
+      {
+        text: 'Do those',
+        isDone: false,
+        id: 3,
+        subtasks: [
+          { text: 'this for those', isDone: false, id: 1 },
+          { text: 'that for those', isDone: false, id: 2 },
+          { text: 'those for those', isDone: false, id: 3 },
+          { text: 'these for those', isDone: true, id: 4 },
+        ],
+      },
     ],
   },
   mutations: {
