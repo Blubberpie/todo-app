@@ -5,7 +5,7 @@
       v-for="(task, taskId) in tasks"
       v-bind:key="taskId"
     >
-      <v-card class="task-card">
+      <v-card class="task-card" v-if="!task.isDone || !tasksHidden">
         <v-list-item>
           <v-list-item-action>
             <v-checkbox
@@ -28,6 +28,7 @@
         </v-list-item>
       </v-card>
       <subtask
+        v-if="!task.isDone || !tasksHidden"
         v-bind:taskId="taskId"
         v-bind:subtasks="task.subtasks"
         v-bind:isCreating="isCreatingSubtask"
@@ -61,7 +62,15 @@ export default {
   created() {
     this.tasksRef = database.ref(`/users/${this.$store.state.auth.user.uid}/tasks`);
   },
-  props: ['tasks'],
+  props: {
+    tasks: {
+      type: Object,
+    },
+    tasksHidden: {
+      type: Boolean,
+      default: false,
+    },
+  },
   methods: {
     destroyTask(taskId) {
       const taskRef = this.tasksRef.child(taskId);

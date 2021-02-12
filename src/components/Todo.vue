@@ -20,7 +20,11 @@
         />
         <v-row>
           <v-col key=1>
-            <v-btn>Hide completed</v-btn>
+            <v-switch
+              v-model="tasksHidden"
+              inset
+              label="Hide completed"
+            />
           </v-col>
           <v-col key=2>
             <v-dialog
@@ -54,13 +58,13 @@
           class="outer-label thic"
           v-if="Object.keys(datedTasks).length !== 0"
         >YOUR PRIORITIES</div>
-        <tasks :tasks="datedTasks"/>
+        <tasks :tasks="datedTasks" :tasksHidden="tasksHidden"/>
         <br/>
         <div
           class="outer-label thic"
           v-if="Object.keys(undatedTasks).length !== 0"
         >UNDATED TASKS</div>
-        <tasks :tasks="undatedTasks"/>
+        <tasks :tasks="undatedTasks" :tasksHidden="tasksHidden"/>
         <div
           class="outer-label thic"
           v-if="Object.keys(undatedTasks).length === 0 && Object.keys(datedTasks).length === 0"
@@ -94,6 +98,7 @@ export default {
       tasksRef: null,
       completionDate: null,
       clearAllDialog: false,
+      tasksHidden: false,
     };
   },
   created() {
