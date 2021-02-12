@@ -88,16 +88,18 @@ export default {
       console.log('asdf', task, subtask);
       this.$store.dispatch('todos/destroySubtask', task, subtask);
     },
-    toggleTaskDone(isDone, taskId) {
+    toggleTaskDone(isDone, taskId, toggleSubtasks = true) {
       const taskRef = this.tasksRef.child(taskId);
       taskRef.update({
         isDone,
       })
         .then(() => {
-          if (this.markAllSubtasksDone(taskRef, isDone)) {
-            console.log('Toggled done!');
-          } else {
-            throw new Error('Could not toggle done!'); // does this work?
+          if (toggleSubtasks) {
+            if (this.markAllSubtasksDone(taskRef, isDone)) {
+              console.log('Toggled done!');
+            } else {
+              throw new Error('Could not toggle done!'); // does this work?
+            }
           }
         })
         .catch((error) => {
@@ -126,10 +128,23 @@ export default {
       })
         .then(() => {
           console.log('Toggled subtask done!');
+          this.allSubtasksDone(taskId);
         })
         .catch((error) => {
           console.log('Could not toggle subtask done due to an error! Please try again later.', error);
         });
+    },
+    allSubtasksDone(taskId) {
+      const subtasksRef = this.tasksRef.child(`${taskId}/subtasks`);
+      let allDone = true;
+      subtasksRef.once('value', (subtasksSnapshot) => {
+        subtasksSnapshot.forEach((subtask) => {
+          if (subtask.val().isDone === false) {
+            allDone = false;
+          }
+        });
+      });
+      this.toggleTaskDone(allDone, taskId, false);
     },
   },
 };
