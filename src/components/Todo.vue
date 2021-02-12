@@ -53,8 +53,17 @@ export default {
     this.tasksRef = database.ref(`/users/${this.$store.state.auth.user.uid}/tasks`);
   },
   mounted() {
-    this.tasksRef.on('value', (snapshot) => {
-      this.tasks = snapshot.val();
+    this.tasksRef.orderByChild('completionDate').on('value', (snapshot) => {
+      const reorderedTasks = {};
+      const undatedTasks = {};
+      snapshot.forEach((task) => {
+        if (Object.prototype.hasOwnProperty.call(task.val(), 'completionDate')) {
+          reorderedTasks[task.key] = task.val();
+        } else {
+          undatedTasks[task.key] = task.val();
+        }
+      });
+      this.tasks = Object.assign(reorderedTasks, undatedTasks);
     });
   },
   methods: {
