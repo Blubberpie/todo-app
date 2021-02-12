@@ -44,7 +44,7 @@ export default {
     };
   },
   created() {
-    this.tasksRef = database.ref(`/users/${this.$store.state.auth.user.uid}`);
+    this.tasksRef = database.ref(`/users/${this.$store.state.auth.user.uid}/tasks`);
   },
   mounted() {
     this.tasksRef.on('value', (snapshot) => {
@@ -54,9 +54,6 @@ export default {
   methods: {
     createTodo() {
       this.tasksRef.push({ text: this.todoText.trim(), isDone: false });
-    },
-    clearCompleted() {
-      this.$store.dispatch('todos/clearCompleted');
     },
   },
 };
