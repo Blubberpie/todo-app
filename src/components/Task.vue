@@ -71,11 +71,12 @@ export default {
       this.isCreatingSubtask = false;
       const taskRef = this.tasksRef.child(taskId);
       taskRef.child('subtasks').push({
-        text: subtask.text,
+        text: subtask.text.trim(),
         isDone: subtask.isDone,
       })
         .then(() => {
-          console.log('done!');
+          // console.log('New subtask created!');
+          this.allSubtasksDone(taskId);
         })
         .catch((error) => {
           console.log('Could not create subtask due to an error! Please try again later.', error);
@@ -84,9 +85,12 @@ export default {
     cancelCreateSubtask() {
       this.isCreatingSubtask = false;
     },
-    onDestroySubtask(task, subtask) {
-      console.log('asdf', task, subtask);
-      this.$store.dispatch('todos/destroySubtask', task, subtask);
+    onDestroySubtask(taskId, subtaskId) {
+      const subtaskRef = this.tasksRef.child(`${taskId}/subtasks/${subtaskId}`);
+      subtaskRef.remove()
+        .catch((error) => {
+          console.log('Could not remove subtask due to an error! Please try again later.', error);
+        });
     },
     toggleTaskDone(isDone, taskId, toggleSubtasks = true) {
       const taskRef = this.tasksRef.child(taskId);
@@ -96,7 +100,7 @@ export default {
         .then(() => {
           if (toggleSubtasks) {
             if (this.markAllSubtasksDone(taskRef, isDone)) {
-              console.log('Toggled done!');
+              // console.log('Toggled done!');
             } else {
               throw new Error('Could not toggle done!'); // does this work?
             }
@@ -122,12 +126,12 @@ export default {
       return true;
     },
     toggleSubtaskDone(isDone, taskId, subtaskId) {
-      const subTaskRef = this.tasksRef.child(`${taskId}/subtasks/${subtaskId}`);
-      subTaskRef.update({
+      const subtaskRef = this.tasksRef.child(`${taskId}/subtasks/${subtaskId}`);
+      subtaskRef.update({
         isDone,
       })
         .then(() => {
-          console.log('Toggled subtask done!');
+          // console.log('Toggled subtask done!');
           this.allSubtasksDone(taskId);
         })
         .catch((error) => {

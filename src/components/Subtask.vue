@@ -23,7 +23,7 @@
         <v-list-item-content>
           <v-list-item-title class="thicc task-text" v-text="subtask.text"/>
         </v-list-item-content>
-        <v-btn @click="destroySubtask(subtask)"><v-icon>mdi-delete</v-icon></v-btn>
+        <v-btn @click="destroySubtask(subtaskId)"><v-icon>mdi-delete</v-icon></v-btn>
       </v-list-item>
     </v-list>
   </div>
@@ -60,12 +60,13 @@ export default {
         isDone: false,
       };
       this.$emit('pushNewSubtask', this.taskCreatingSubtask, newSubtask);
+      this.subtaskText = '';
     },
     cancelCreateSubtask() {
       this.$emit('cancelCreateSubtask');
     },
-    destroySubtask(subtask) {
-      this.$emit('destroySubtask', this.task, subtask);
+    destroySubtask(subtaskId) {
+      this.$emit('destroySubtask', this.taskId, subtaskId);
     },
     toggleSubtaskDone(isDone, subtaskId) {
       this.$emit('toggleSubtaskDone', isDone, this.taskId, subtaskId);

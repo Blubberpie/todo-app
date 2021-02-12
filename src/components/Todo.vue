@@ -13,6 +13,11 @@
         @keyup.enter="createTodo"
         autofocus
         />
+        <v-date-picker
+          v-model="completionDate"
+          class="mb-4"
+          :min="new Date().toISOString().substr(0, 10)"
+        />
         <div class="outer-label thic">THINGS TO DO</div>
         <tasks :tasks="tasks"/>
       </v-col>
@@ -41,6 +46,7 @@ export default {
       editing: null,
       tasks: {},
       tasksRef: null,
+      completionDate: null,
     };
   },
   created() {
@@ -56,7 +62,13 @@ export default {
       if (this.todoText.trim()) {
         const backupText = this.todoText;
         this.todoText = '';
-        this.tasksRef.push({ text: backupText.trim(), isDone: false })
+        this.tasksRef.push({
+          text: backupText.trim(),
+          isDone: false,
+          completionDate: this.completionDate,
+        }).then(() => {
+          this.completionDate = null;
+        })
           .catch((error) => {
             this.todoText = backupText;
             console.log('Could not add new task due to an error! Please try again later.', error);
