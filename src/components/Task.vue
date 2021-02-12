@@ -10,7 +10,7 @@
           <v-list-item-action>
             <v-checkbox
             :input-value="task.isDone"
-            @change="markTaskDone($event, taskId)"
+            @change="toggleTaskDone($event, taskId)"
             />
           </v-list-item-action>
           <v-list-item-content>
@@ -28,7 +28,7 @@
         @pushNewSubtask="pushNewSubtask"
         @cancelCreateSubtask="cancelCreateSubtask"
         @destroySubtask="onDestroySubtask"
-        @markSubtaskDone="markSubtaskDone"
+        @toggleSubtaskDone="toggleSubtaskDone"
       />
     </v-list>
   </div>
@@ -88,28 +88,47 @@ export default {
       console.log('asdf', task, subtask);
       this.$store.dispatch('todos/destroySubtask', task, subtask);
     },
-    markTaskDone(isDone, taskId) {
+    toggleTaskDone(isDone, taskId) {
       const taskRef = this.tasksRef.child(taskId);
       taskRef.update({
         isDone,
       })
         .then(() => {
-          console.log('Marked done!');
+          if (this.markAllSubtasksDone(taskRef, isDone)) {
+            console.log('Toggled done!');
+          } else {
+            throw new Error('Could not toggle done!'); // does this work?
+          }
         })
         .catch((error) => {
-          console.log('Could not mark done due to an error! Please try again later.', error);
+          console.log('Could not toggle done due to an error! Please try again later.', error);
         });
     },
-    markSubtaskDone(isDone, taskId, subtaskId) {
+    markAllSubtasksDone(taskRef, isDone) {
+      const subtasksRef = taskRef.child('subtasks');
+      subtasksRef.once('value', (snapshot) => {
+        snapshot.forEach((subtask) => {
+          subtask.ref.update({
+            isDone,
+          })
+            .catch((error) => {
+              console.log('Could not toggle all subtasks done due to an error! Please try again later.', error);
+              return false;
+            });
+        });
+      });
+      return true;
+    },
+    toggleSubtaskDone(isDone, taskId, subtaskId) {
       const subTaskRef = this.tasksRef.child(`${taskId}/subtasks/${subtaskId}`);
       subTaskRef.update({
         isDone,
       })
         .then(() => {
-          console.log('Marked subtask done!');
+          console.log('Toggled subtask done!');
         })
         .catch((error) => {
-          console.log('Could not mark subtask done due to an error! Please try again later.', error);
+          console.log('Could not toggle subtask done due to an error! Please try again later.', error);
         });
     },
   },

@@ -17,7 +17,7 @@
         <v-list-item-action>
           <v-checkbox
           :input-value="subtask.isDone"
-          @change="markSubtaskDone($event, subtaskId)"
+          @change="toggleSubtaskDone($event, subtaskId)"
           />
         </v-list-item-action>
         <v-list-item-content>
@@ -67,8 +67,8 @@ export default {
     destroySubtask(subtask) {
       this.$emit('destroySubtask', this.task, subtask);
     },
-    markSubtaskDone(isDone, subtaskId) {
-      this.$emit('markSubtaskDone', isDone, this.taskId, subtaskId);
+    toggleSubtaskDone(isDone, subtaskId) {
+      this.$emit('toggleSubtaskDone', isDone, this.taskId, subtaskId);
     },
   },
 };
