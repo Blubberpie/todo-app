@@ -47,7 +47,10 @@ export default {
   methods: {
     destroyTask(taskId) {
       const taskRef = this.tasksRef.child(taskId);
-      taskRef.remove();
+      taskRef.remove()
+        .catch((error) => {
+          console.log('Could not remove task due to an error! Please try again later.', error);
+        });
     },
     onDestroySubtask(task, subtask) {
       console.log('asdf', task, subtask);

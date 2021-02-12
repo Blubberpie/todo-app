@@ -53,7 +53,13 @@ export default {
   },
   methods: {
     createTodo() {
-      this.tasksRef.push({ text: this.todoText.trim(), isDone: false });
+      const backupText = this.todoText;
+      this.todoText = '';
+      this.tasksRef.push({ text: backupText.trim(), isDone: false })
+        .catch((error) => {
+          this.todoText = backupText;
+          console.log('Could not add new task due to an error! Please try again later.', error);
+        });
     },
   },
 };
