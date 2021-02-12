@@ -23,7 +23,30 @@
             <v-btn>Hide completed</v-btn>
           </v-col>
           <v-col key=2>
-            <v-btn @click="clearAllCompleted">Clear all completed</v-btn>
+            <v-dialog
+              v-model="clearAllDialog"
+              width="500"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  v-bind="attrs"
+                  v-on="on"
+                >Clear all completed</v-btn>
+              </template>
+
+              <v-card>
+                <v-card-title>
+                  This will permanently delete all completed tasks
+                  from your list! Do you want to continue?
+                </v-card-title>
+                <v-btn @click="clearAllDialog = false">
+                  Cancel
+                </v-btn>
+                <v-btn @click="clearAllCompleted">
+                  Delete completed
+                </v-btn>
+              </v-card>
+            </v-dialog>
           </v-col>
         </v-row>
         <br/>
@@ -70,6 +93,7 @@ export default {
       undatedTasks: {},
       tasksRef: null,
       completionDate: null,
+      clearAllDialog: false,
     };
   },
   created() {
@@ -123,6 +147,7 @@ export default {
           }
         });
       });
+      this.clearAllDialog = false;
     },
   },
 };
