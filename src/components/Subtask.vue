@@ -1,9 +1,17 @@
 <template>
   <div>
+    <v-text-field solo
+      v-if="isCreating && (taskId === taskCreatingSubtask)"
+      v-model="subtaskText"
+      placeholder="What's your subtask?"
+      @keyup.enter="createSubtask"
+      @keyup.esc="cancelCreateSubtask"
+      autofocus
+      />
     <v-list
       class="sub-list"
-      v-for="subtask in this.task.subtasks"
-      v-bind:key="subtask.id"
+      v-for="(subtask, subtaskId) in this.subtasks"
+      v-bind:key="subtaskId"
     >
       <v-list-item>
         <v-list-item-action>
@@ -21,12 +29,38 @@
 <script>
 export default {
   name: 'Subtask',
+  data() {
+    return {
+      subtaskText: '',
+    };
+  },
   props: {
-    task: {
+    taskId: {
+      type: String,
+    },
+    subtasks: {
       type: Object,
+    },
+    isCreating: {
+      type: Boolean,
+      default: false,
+    },
+    taskCreatingSubtask: {
+      type: String,
+      default: '',
     },
   },
   methods: {
+    createSubtask() {
+      const newSubtask = {
+        text: this.subtaskText,
+        isDone: false,
+      };
+      this.$emit('pushNewSubtask', this.taskCreatingSubtask, newSubtask);
+    },
+    cancelCreateSubtask() {
+      this.$emit('cancelCreateSubtask');
+    },
     destroySubtask(subtask) {
       this.$emit('destroySubtask', this.task, subtask);
     },
