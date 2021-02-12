@@ -15,6 +15,13 @@
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title class="thicc task-text" v-text="task.text"/>
+            <v-list-item-subtitle v-if="task.completionDate">
+              Finish by: {{ new Date(task.completionDate).toLocaleString('default', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+              }) }}
+            </v-list-item-subtitle>
           </v-list-item-content>
           <v-btn @click="createSubtask(taskId)"><v-icon>mdi-plus-circle</v-icon></v-btn>
           <v-btn @click="destroyTask(taskId)"><v-icon>mdi-delete</v-icon></v-btn>

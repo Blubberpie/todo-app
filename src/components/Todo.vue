@@ -18,6 +18,15 @@
           class="mb-4"
           :min="new Date().toISOString().substr(0, 10)"
         />
+        <v-row>
+          <v-col key=1>
+            <v-btn>Hide completed</v-btn>
+          </v-col>
+          <v-col key=2>
+            <v-btn @click="clearAllCompleted">Clear all completed</v-btn>
+          </v-col>
+        </v-row>
+        <br/>
         <div
           class="outer-label thic"
           v-if="Object.keys(datedTasks).length !== 0"
@@ -101,6 +110,19 @@ export default {
         this.todoText = '';
         // TODO: show error: cannot be empty!
       }
+    },
+    clearAllCompleted() {
+      [this.datedTasks, this.undatedTasks].forEach((tasks) => {
+        Object.entries(tasks).forEach((task) => {
+          const [taskKey, taskValue] = task;
+          if (taskValue.isDone) {
+            this.tasksRef.child(taskKey).remove()
+              .catch((error) => {
+                console.log('Could not remove task due to an error!', error);
+              });
+          }
+        });
+      });
     },
   },
 };
