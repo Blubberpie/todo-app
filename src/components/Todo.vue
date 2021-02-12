@@ -18,8 +18,21 @@
           class="mb-4"
           :min="new Date().toISOString().substr(0, 10)"
         />
-        <div class="outer-label thic">THINGS TO DO</div>
-        <tasks :tasks="tasks"/>
+        <div
+          class="outer-label thic"
+          v-if="Object.keys(datedTasks).length !== 0"
+        >YOUR PRIORITIES</div>
+        <tasks :tasks="datedTasks"/>
+        <br/>
+        <div
+          class="outer-label thic"
+          v-if="Object.keys(undatedTasks).length !== 0"
+        >UNDATED TASKS</div>
+        <tasks :tasks="undatedTasks"/>
+        <div
+          class="outer-label thic"
+          v-if="Object.keys(undatedTasks).length === 0 && Object.keys(datedTasks).length === 0"
+        >YOU HAVE NO TASKS</div>
       </v-col>
       <v-spacer/>
     </v-row>
@@ -44,7 +57,8 @@ export default {
       title: 'THINGS TO DO',
       todoText: '',
       editing: null,
-      tasks: {},
+      datedTasks: {},
+      undatedTasks: {},
       tasksRef: null,
       completionDate: null,
     };
@@ -63,7 +77,8 @@ export default {
           undatedTasks[task.key] = task.val();
         }
       });
-      this.tasks = Object.assign(reorderedTasks, undatedTasks);
+      this.datedTasks = reorderedTasks;
+      this.undatedTasks = undatedTasks;
     });
   },
   methods: {
