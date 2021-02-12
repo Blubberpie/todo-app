@@ -28,6 +28,7 @@
         @pushNewSubtask="pushNewSubtask"
         @cancelCreateSubtask="cancelCreateSubtask"
         @destroySubtask="onDestroySubtask"
+        @markSubtaskDone="markSubtaskDone"
       />
     </v-list>
   </div>
@@ -97,6 +98,18 @@ export default {
         })
         .catch((error) => {
           console.log('Could not mark done due to an error! Please try again later.', error);
+        });
+    },
+    markSubtaskDone(isDone, taskId, subtaskId) {
+      const subTaskRef = this.tasksRef.child(`${taskId}/subtasks/${subtaskId}`);
+      subTaskRef.update({
+        isDone,
+      })
+        .then(() => {
+          console.log('Marked subtask done!');
+        })
+        .catch((error) => {
+          console.log('Could not mark subtask done due to an error! Please try again later.', error);
         });
     },
   },
