@@ -8,7 +8,10 @@
       <v-card class="task-card">
         <v-list-item>
           <v-list-item-action>
-            <v-checkbox :input-value="task.isDone"/>
+            <v-checkbox
+            :input-value="task.isDone"
+            @change="markTaskDone($event, taskId)"
+            />
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title class="thicc task-text" v-text="task.text"/>
@@ -83,6 +86,18 @@ export default {
     onDestroySubtask(task, subtask) {
       console.log('asdf', task, subtask);
       this.$store.dispatch('todos/destroySubtask', task, subtask);
+    },
+    markTaskDone(isDone, taskId) {
+      const taskRef = this.tasksRef.child(taskId);
+      taskRef.update({
+        isDone,
+      })
+        .then(() => {
+          console.log('Marked done!');
+        })
+        .catch((error) => {
+          console.log('Could not mark done due to an error! Please try again later.', error);
+        });
     },
   },
 };
