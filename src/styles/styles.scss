@@ -23,8 +23,33 @@
     color: $almost-black;
 }
 
+.main-list {
+    max-height: 100vh;
+    overflow: auto;
+}
+
 .sub-list {
     margin-left: 68px;
+}
+
+.tiny-card {
+    background-color: $almost-white !important;
+    margin-left: 3px;
+    margin-right: 3px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 2px;
+    border-radius: 5px;
+}
+
+// Text colors
+
+.pink-red-text {
+    color: $pink-red;
+}
+
+.spruce-text {
+    color: $spruce;
 }
 
 // Font weights

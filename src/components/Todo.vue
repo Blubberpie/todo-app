@@ -54,25 +54,47 @@
           </v-col>
         </v-row>
         <br/>
-        <div
-          class="outer-label thic"
-          v-if="Object.keys(datedTasks).length !== 0"
-        >YOUR PRIORITIES</div>
-        <tasks :tasks="datedTasks" :tasksHidden="tasksHidden"/>
-        <br/>
-        <div
-          class="outer-label thic"
-          v-if="Object.keys(undatedTasks).length !== 0"
-        >UNDATED TASKS</div>
-        <tasks :tasks="undatedTasks" :tasksHidden="tasksHidden"/>
-        <div
-          class="outer-label thic"
-          v-if="Object.keys(undatedTasks).length === 0 && Object.keys(datedTasks).length === 0"
-        >YOU HAVE NO TASKS</div>
+        <div>
+          <v-row>
+            <v-col id=1 cols=5>
+              <div
+                class="outer-label thic"
+                v-if="Object.keys(datedTasks).length !== 0"
+              >YOUR PRIORITIES</div>
+            </v-col>
+            <v-col id=2 cols=7>
+              <div
+              class="outer-label thic text-right"
+              v-if="Object.keys(datedTasks).length !== 0"
+            >
+              <div>
+                COMPLETED: <span class="tiny-card spruce-text">
+                  {{ completedCount }}
+                </span>
+              </div>
+              <div>
+                REMAINING: <span class="tiny-card spruce-text">
+                  {{ incompletedCount }}
+                </span>
+              </div>
+            </div>
+            </v-col>
+          </v-row>
+          <tasks :tasks="datedTasks" :tasksHidden="tasksHidden"/>
+          <br/>
+          <div
+            class="outer-label thic"
+            v-if="Object.keys(undatedTasks).length !== 0"
+          >UNDATED TASKS</div>
+          <tasks :tasks="undatedTasks" :tasksHidden="tasksHidden"/>
+          <div
+            class="outer-label thic"
+            v-if="Object.keys(undatedTasks).length === 0 && Object.keys(datedTasks).length === 0"
+          >YOU HAVE NO TASKS</div>
+        </div>
       </v-col>
       <v-spacer/>
     </v-row>
-    <!-- <footnote /> -->
   </div>
 </template>
 
@@ -99,6 +121,8 @@ export default {
       completionDate: null,
       clearAllDialog: false,
       tasksHidden: false,
+      completedCount: 0,
+      incompletedCount: 0,
     };
   },
   created() {
@@ -108,15 +132,24 @@ export default {
     this.tasksRef.orderByChild('completionDate').on('value', (snapshot) => {
       const reorderedTasks = {};
       const undatedTasks = {};
+      let completed = 0;
+      let incompleted = 0;
       snapshot.forEach((task) => {
         if (Object.prototype.hasOwnProperty.call(task.val(), 'completionDate')) {
           reorderedTasks[task.key] = task.val();
         } else {
           undatedTasks[task.key] = task.val();
         }
+        if (task.val().isDone) {
+          completed += 1;
+        } else {
+          incompleted += 1;
+        }
       });
       this.datedTasks = reorderedTasks;
       this.undatedTasks = undatedTasks;
+      this.completedCount = completed;
+      this.incompletedCount = incompleted;
     });
   },
   methods: {
