@@ -23,7 +23,7 @@
           autofocus
         />
         <p if="errorMessage">{{ errorMessage }}</p>
-        <v-row class="pr-4">
+        <v-row class="pl-4 pr-4">
           <v-btn @click="goRegister">Create a New Account</v-btn>
           <v-spacer/>
           <v-btn @click="doLogin">Login</v-btn>
@@ -63,6 +63,9 @@ export default {
       } else {
         this.errorMessage = 'Cannot be empty!';
       }
+    },
+    goRegister() {
+      this.$router.push({ name: 'register' });
     },
   },
 };

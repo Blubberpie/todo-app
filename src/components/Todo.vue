@@ -73,16 +73,19 @@
               </template>
 
               <v-card>
-                <v-card-title>
+                <v-card-title class="warning-dialog">
                   This will permanently delete all completed tasks
                   from your list! Do you want to continue?
                 </v-card-title>
-                <v-btn @click="clearAllDialog = false">
-                  Cancel
-                </v-btn>
-                <v-btn @click="clearAllCompleted">
-                  Delete completed
-                </v-btn>
+                <v-card-actions class="warning-dialog-action">
+                  <v-btn @click="clearAllDialog = false">
+                    Cancel
+                  </v-btn>
+                  <v-spacer/>
+                  <v-btn dark color="red lighten-1" @click="clearAllCompleted">
+                    Delete completed
+                  </v-btn>
+                </v-card-actions>
               </v-card>
             </v-dialog>
           </v-col>

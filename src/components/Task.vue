@@ -81,7 +81,8 @@ export default {
       tasksRef: null,
       isCreatingSubtask: false,
       taskCreatingSubtask: '',
-      showSubtasks: true,
+      showSubtasks: false,
+      taskTogglingSubtasks: '',
     };
   },
   created() {
@@ -107,7 +108,6 @@ export default {
     createSubtask(taskId) {
       this.isCreatingSubtask = true;
       this.taskCreatingSubtask = taskId;
-      this.showSubtasks = true;
     },
     toggleSubtasks(taskId) {
       this.showSubtasks = !this.showSubtasks;
@@ -116,6 +116,7 @@ export default {
     pushNewSubtask(taskId, subtask) {
       this.isCreatingSubtask = false;
       const taskRef = this.tasksRef.child(taskId);
+      this.showSubtasks = true;
       taskRef.child('subtasks').push({
         text: subtask.text.trim(),
         isDone: subtask.isDone,

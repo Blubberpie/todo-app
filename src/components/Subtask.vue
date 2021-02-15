@@ -80,7 +80,6 @@ export default {
       };
       this.$emit('pushNewSubtask', this.taskCreatingSubtask, newSubtask);
       this.subtaskText = '';
-      this.showSubtasks = true;
     },
     cancelCreateSubtask() {
       this.$emit('cancelCreateSubtask');

@@ -50,6 +50,16 @@
     border-radius: $border-radius-default;
 }
 
+.warning-dialog {
+    font-weight: 400 !important;
+    word-break: normal !important;
+    padding-bottom: 2rem !important;
+}
+
+.warning-dialog-action {
+    padding: 1rem !important;
+}
+
 .progress-bar {
     position: absolute !important;
     bottom: 0;

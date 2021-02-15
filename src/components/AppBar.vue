@@ -9,7 +9,7 @@
     <v-col id=3 cols="4">
       <v-row>
         <v-spacer/>
-        <v-btn @click="doLogout">Logout</v-btn>
+        <v-btn v-if="loggedIn" @click="doLogout">Logout</v-btn>
       </v-row>
     </v-col>
   </v-app-bar>
@@ -21,6 +21,16 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 
 export default {
+  data() {
+    return {
+      loggedIn: false,
+    };
+  },
+  mounted() {
+    firebase.auth().onAuthStateChanged((user) => {
+      this.loggedIn = user;
+    });
+  },
   methods: {
     async doLogout() {
       await firebase.auth().signOut().then(() => {
