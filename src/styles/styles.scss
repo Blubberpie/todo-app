@@ -5,7 +5,7 @@
 }
 
 .v-card {
-    width: 400px; 
+    width: 25rem; 
 }
 
 .outer-label {
@@ -16,7 +16,15 @@
 
 .task-card {
     width: 100%;
-    padding: 0.6em;
+    padding: 0.6rem;
+    transition: 0.4s;
+}
+
+.task-card-completed {
+    width: 100%;
+    padding: 0.6rem;
+    opacity: 0.6;
+    transition: 0.4s;
 }
 
 .task-text {
@@ -29,17 +37,25 @@
 }
 
 .sub-list {
-    margin-left: 68px;
+    margin-left: $sub-list-margin;
 }
 
 .tiny-card {
     background-color: $almost-white !important;
-    margin-left: 3px;
-    margin-right: 3px;
-    padding-left: 5px;
-    padding-right: 5px;
-    padding-bottom: 2px;
-    border-radius: 5px;
+    margin-left: 0.19rem;
+    margin-right: 0.19rem;
+    padding-left: 0.3rem;
+    padding-right: 0.3rem;
+    padding-bottom: 0.125rem;
+    border-radius: $border-radius-default;
+}
+
+.progress-bar {
+    position: absolute !important;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
 }
 
 // Text colors
@@ -69,6 +85,37 @@
 .thicc {
     font-family: 'Gotham Black' !important;
     font-size: 1.1em !important;
+}
+
+.input-row {
+    width: 100%;
+}
+
+.input-col {
+    overflow-y: scroll;
+}
+
+// Editing defaults - probably shouldn't do this
+.v-picker {
+    max-width: fit-content !important;
+}
+
+.v-picker__title {
+    background-color: $spruce !important;
+}
+
+.v-date-picker-title__year {
+    opacity: 1 !important;
+    color: $almost-white !important;
+}
+
+.v-date-picker-header {
+    background-color: $almost-white !important;
+    font-size: 1.3rem !important;
+}
+
+.v-picker__title__btn {
+    font-size: 2rem !important;
 }
 
 // By ID

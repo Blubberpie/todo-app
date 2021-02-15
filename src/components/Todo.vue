@@ -4,29 +4,63 @@
       <v-spacer/>
       <v-col
         cols="12"
-        sm="7"
-        md="6"
+        sm="12"
+        md="7"
         >
-        <v-text-field solo id="new-task"
-        v-model="todoText"
-        placeholder="What needs to be done?"
-        @keyup.enter="createTodo"
-        autofocus
-        />
-        <v-date-picker
-          v-model="completionDate"
-          class="mb-4"
-          :min="new Date().toISOString().substr(0, 10)"
-        />
+        <v-row class="input-row">
+          <v-col id="1" cols="10">
+            <v-text-field solo
+              id="new-task"
+              v-model="todoText"
+              :error-messages="creationError"
+              placeholder="What needs to be done?"
+              @keyup.enter="createTodo"
+              autofocus
+              />
+          </v-col>
+          <v-col id="2" cols="2">
+            <v-menu
+              class="test"
+              transition="slide-x-transition"
+              bottom left
+              nudge-bottom="60"
+              nudge-left="70"
+              rounded="b-xl"
+              :close-on-content-click="false"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  large
+                  right
+                  icon
+                  light
+                  v-bind="attrs"
+                  v-on="on"
+                ><v-icon>mdi-calendar</v-icon></v-btn>
+              </template>
+              <v-date-picker
+                v-model="completionDate"
+                class="mb-4"
+                :min="new Date().toISOString().substr(0, 10)"
+              />
+            </v-menu>
+            <v-btn
+              large
+              right
+              icon
+              @click="createTodo"
+            ><v-icon>mdi-plus-thick</v-icon></v-btn>
+          </v-col>
+        </v-row>
         <v-row>
-          <v-col key=1>
+          <v-col key=1 align-self="end">
             <v-switch
               v-model="tasksHidden"
               inset
               label="Hide completed"
             />
           </v-col>
-          <v-col key=2>
+          <v-col key=2 align-self="end">
             <v-dialog
               v-model="clearAllDialog"
               width="500"
@@ -56,13 +90,13 @@
         <br/>
         <div>
           <v-row>
-            <v-col id=1 cols=5>
+            <v-col id=1 cols=5 align-self="end">
               <div
                 class="outer-label thic"
                 v-if="Object.keys(datedTasks).length !== 0"
               >YOUR PRIORITIES</div>
             </v-col>
-            <v-col id=2 cols=7>
+            <v-col id=2 cols=7 align-self="end">
               <div
               class="outer-label thic text-right"
               v-if="Object.keys(datedTasks).length !== 0"
@@ -88,7 +122,7 @@
           >UNDATED TASKS</div>
           <tasks :tasks="undatedTasks" :tasksHidden="tasksHidden"/>
           <div
-            class="outer-label thic"
+            class="outer-label thic text-center"
             v-if="Object.keys(undatedTasks).length === 0 && Object.keys(datedTasks).length === 0"
           >YOU HAVE NO TASKS</div>
         </div>
@@ -114,7 +148,7 @@ export default {
     return {
       title: 'THINGS TO DO',
       todoText: '',
-      editing: null,
+      creationError: [],
       datedTasks: {},
       undatedTasks: {},
       tasksRef: null,
@@ -163,14 +197,17 @@ export default {
           completionDate: this.completionDate,
         }).then(() => {
           this.completionDate = null;
+          this.creationError = [];
         })
           .catch((error) => {
             this.todoText = backupText;
-            console.log('Could not add new task due to an error! Please try again later.', error);
+            const errText = 'Could not add new task due to an error! Please try again later.';
+            console.log(errText, error);
+            this.creationError.push(errText);
           });
       } else {
         this.todoText = '';
-        // TODO: show error: cannot be empty!
+        this.creationError.push('Please enter some text first!');
       }
     },
     clearAllCompleted() {

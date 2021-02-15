@@ -5,7 +5,10 @@
       v-for="(task, taskId) in tasks"
       v-bind:key="taskId"
     >
-      <v-card class="task-card" v-if="!task.isDone || !tasksHidden">
+      <v-card
+        :class="task.isDone ? 'task-card-completed' : 'task-card'"
+        v-if="!task.isDone || !tasksHidden"
+      >
         <v-list-item>
           <v-list-item-action>
             <v-checkbox
@@ -26,6 +29,12 @@
           <v-btn @click="createSubtask(taskId)"><v-icon>mdi-plus-circle</v-icon></v-btn>
           <v-btn @click="destroyTask(taskId)"><v-icon>mdi-delete</v-icon></v-btn>
         </v-list-item>
+        <v-progress-linear
+          class="progress-bar"
+          color="pink lighten-3"
+          height="0.5rem"
+          :value="checkProgress(task)"
+        />
       </v-card>
       <subtask
         v-if="!task.isDone || !tasksHidden"
@@ -165,6 +174,21 @@ export default {
         });
       });
       this.toggleTaskDone(allDone, taskId, false);
+    },
+    checkProgress(task) {
+      let total = 0;
+      let count = 0;
+      if (Object.prototype.hasOwnProperty.call(task, 'subtasks')) {
+        Object.entries(task.subtasks).forEach((subtask) => {
+          if (subtask[1].isDone) {
+            count += 1;
+          }
+          total += 1;
+        });
+      } else {
+        return task.isDone * 100;
+      }
+      return (count / total) * 100;
     },
   },
 };

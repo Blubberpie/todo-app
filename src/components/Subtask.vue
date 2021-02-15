@@ -9,22 +9,24 @@
       autofocus
       />
     <v-list
-      class="sub-list"
+      class="sub-list transparent"
       v-for="(subtask, subtaskId) in this.subtasks"
       v-bind:key="subtaskId"
     >
-      <v-list-item>
-        <v-list-item-action>
-          <v-checkbox
-          :input-value="subtask.isDone"
-          @change="toggleSubtaskDone($event, subtaskId)"
-          />
-        </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title class="thicc task-text" v-text="subtask.text"/>
-        </v-list-item-content>
-        <v-btn @click="destroySubtask(subtaskId)"><v-icon>mdi-delete</v-icon></v-btn>
-      </v-list-item>
+      <v-card :class="subtask.isDone ? 'task-card-completed' : 'task-card'">
+        <v-list-item>
+          <v-list-item-action>
+            <v-checkbox
+            :input-value="subtask.isDone"
+            @change="toggleSubtaskDone($event, subtaskId)"
+            />
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title class="thicc task-text" v-text="subtask.text"/>
+          </v-list-item-content>
+          <v-btn @click="destroySubtask(subtaskId)"><v-icon>mdi-delete</v-icon></v-btn>
+        </v-list-item>
+      </v-card>
     </v-list>
   </div>
 </template>
