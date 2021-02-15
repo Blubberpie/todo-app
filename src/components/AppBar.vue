@@ -1,13 +1,17 @@
 <template>
   <v-app-bar app elevation="0">
     <v-spacer/>
-    <v-col
-      cols="12"
-      sm="4"
-    >
-      <h2 class="thick" id="app-name">THE TOODO</h2>
+    <v-col id=1 cols="4">
     </v-col>
-    <v-btn @click="doLogout">Logout</v-btn>
+    <v-col id=2 cols="4">
+      <h2 class="thick" id="app-name">LYNE-UP</h2>
+    </v-col>
+    <v-col id=3 cols="4">
+      <v-row>
+        <v-spacer/>
+        <v-btn @click="doLogout">Logout</v-btn>
+      </v-row>
+    </v-col>
   </v-app-bar>
 </template>
 

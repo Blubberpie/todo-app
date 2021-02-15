@@ -7,7 +7,7 @@
         sm="8"
         md="6"
       >
-        <h1 class="thick custom-title">Login to Access<br/>Your Todo List!</h1>
+        <h1 class="thick custom-title">Register to Start Creating <br/>Your Todo List!</h1>
         <v-text-field
           solo
           v-model="username"
@@ -19,14 +19,13 @@
           v-model="password"
           type="password"
           placeholder="Enter your password"
-          @keyup.enter="doLogin"
+          @keyup.enter="doRegister"
           autofocus
         />
         <p if="errorMessage">{{ errorMessage }}</p>
         <v-row class="pr-4">
-          <v-btn @click="goRegister">Create a New Account</v-btn>
           <v-spacer/>
-          <v-btn @click="doLogin">Login</v-btn>
+          <v-btn @click="doRegister">Register</v-btn>
         </v-row>
       </v-col>
       <v-spacer/>
@@ -48,10 +47,10 @@ export default {
     };
   },
   methods: {
-    async doLogin() {
+    async doRegister() {
       if (this.username && this.password) {
         await firebase.auth()
-          .signInWithEmailAndPassword(this.username, this.password)
+          .createUserWithEmailAndPassword(this.username, this.password)
           .then((userCredential) => {
             const { user } = userCredential;
             this.$store.dispatch('auth/setAuthenticatedUser', user);

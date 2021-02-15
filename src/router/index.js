@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 
 const Todos = () => import('@/components/Todo.vue');
 const Login = () => import('@/components/Login.vue');
+const Register = () => import('@/components/Register.vue');
 
 Vue.use(VueRouter);
 
@@ -20,6 +21,14 @@ const routes = [
     path: '/login',
     name: 'login',
     component: Login,
+    meta: {
+      requiredAuthentication: false,
+    },
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: Register,
     meta: {
       requiredAuthentication: false,
     },

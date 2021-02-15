@@ -39,6 +39,7 @@
           <v-btn
             icon
             large
+            v-if="task.subtasks"
             @click="toggleSubtasks(taskId)"><v-icon>mdi-chevron-down</v-icon></v-btn>
         </v-list-item>
         <v-progress-linear
