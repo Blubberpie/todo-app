@@ -26,8 +26,20 @@
               }) }}
             </v-list-item-subtitle>
           </v-list-item-content>
-          <v-btn @click="createSubtask(taskId)"><v-icon>mdi-plus-circle</v-icon></v-btn>
-          <v-btn @click="destroyTask(taskId)"><v-icon>mdi-delete</v-icon></v-btn>
+          <v-btn
+            icon
+            large
+            color="green lighten-2"
+            @click="createSubtask(taskId)"><v-icon>mdi-plus-thick</v-icon></v-btn>
+          <v-btn
+            icon
+            large
+            color="red lighten-2"
+            @click="destroyTask(taskId)"><v-icon>mdi-delete</v-icon></v-btn>
+          <v-btn
+            icon
+            large
+            @click="toggleSubtasks(taskId)"><v-icon>mdi-chevron-down</v-icon></v-btn>
         </v-list-item>
         <v-progress-linear
           class="progress-bar"
@@ -38,10 +50,12 @@
       </v-card>
       <subtask
         v-if="!task.isDone || !tasksHidden"
-        v-bind:taskId="taskId"
-        v-bind:subtasks="task.subtasks"
-        v-bind:isCreating="isCreatingSubtask"
-        v-bind:taskCreatingSubtask="taskCreatingSubtask"
+        :taskId="taskId"
+        :subtasks="task.subtasks"
+        :isCreating="isCreatingSubtask"
+        :taskCreatingSubtask="taskCreatingSubtask"
+        :showSubtasks="showSubtasks"
+        :taskTogglingSubtasks="taskTogglingSubtasks"
         @pushNewSubtask="pushNewSubtask"
         @cancelCreateSubtask="cancelCreateSubtask"
         @destroySubtask="onDestroySubtask"
@@ -66,6 +80,7 @@ export default {
       tasksRef: null,
       isCreatingSubtask: false,
       taskCreatingSubtask: '',
+      showSubtasks: true,
     };
   },
   created() {
@@ -91,6 +106,11 @@ export default {
     createSubtask(taskId) {
       this.isCreatingSubtask = true;
       this.taskCreatingSubtask = taskId;
+      this.showSubtasks = true;
+    },
+    toggleSubtasks(taskId) {
+      this.showSubtasks = !this.showSubtasks;
+      this.taskTogglingSubtasks = taskId;
     },
     pushNewSubtask(taskId, subtask) {
       this.isCreatingSubtask = false;

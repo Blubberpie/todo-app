@@ -95,6 +95,10 @@
     overflow-y: scroll;
 }
 
+.subtask-create {
+    margin-top: 0.5rem !important;
+}
+
 // Editing defaults - probably shouldn't do this
 .v-picker {
     max-width: fit-content !important;
