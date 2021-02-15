@@ -116,7 +116,6 @@ export default {
     pushNewSubtask(taskId, subtask) {
       this.isCreatingSubtask = false;
       const taskRef = this.tasksRef.child(taskId);
-      this.showSubtasks = true;
       taskRef.child('subtasks').push({
         text: subtask.text.trim(),
         isDone: subtask.isDone,

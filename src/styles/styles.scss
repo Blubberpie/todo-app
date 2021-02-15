@@ -76,6 +76,20 @@
     color: $almost-white;
 }
 
+.my-switch {
+    max-width: fit-content !important;
+}
+
+.switch-label {
+    color: $almost-white !important;
+    padding: 1rem;
+    max-width: fit-content;
+}
+
+.test {
+    max-width: fit-content !important;
+}
+
 // Text colors
 
 .pink-red-text {

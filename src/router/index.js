@@ -19,6 +19,7 @@ const routes = [
   },
   {
     path: '/login',
+    alias: ['/'],
     name: 'login',
     component: Login,
     meta: {

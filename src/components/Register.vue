@@ -11,7 +11,7 @@
         <v-text-field
           solo
           v-model="username"
-          placeholder="Enter your username"
+          placeholder="Enter your email address"
           autofocus
         />
         <v-text-field
@@ -19,6 +19,13 @@
           v-model="password"
           type="password"
           placeholder="Enter your password"
+          autofocus
+        />
+        <v-text-field
+          solo
+          v-model="passwordConfirm"
+          type="password"
+          placeholder="Enter your password again"
           @keyup.enter="doRegister"
           autofocus
         />
@@ -43,22 +50,27 @@ export default {
     return {
       username: '',
       password: '',
+      passwordConfirm: '',
       errorMessage: '',
     };
   },
   methods: {
     async doRegister() {
-      if (this.username && this.password) {
-        await firebase.auth()
-          .createUserWithEmailAndPassword(this.username, this.password)
-          .then((userCredential) => {
-            const { user } = userCredential;
-            this.$store.dispatch('auth/setAuthenticatedUser', user);
-            this.$router.push({ name: 'todos' });
-          })
-          .catch((error) => {
-            this.errorMessage = error.message;
-          });
+      if (this.username && this.password && this.passwordConfirm) {
+        if (this.password === this.passwordConfirm) {
+          await firebase.auth()
+            .createUserWithEmailAndPassword(this.username, this.password)
+            .then((userCredential) => {
+              const { user } = userCredential;
+              this.$store.dispatch('auth/setAuthenticatedUser', user);
+              this.$router.push({ name: 'todos' });
+            })
+            .catch((error) => {
+              this.errorMessage = error.message;
+            });
+        } else {
+          this.errorMessage = 'Passwords do not match!';
+        }
       } else {
         this.errorMessage = 'Cannot be empty!';
       }

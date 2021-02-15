@@ -11,7 +11,7 @@
         <v-text-field
           solo
           v-model="username"
-          placeholder="Enter your username"
+          placeholder="Enter your email address"
           autofocus
         />
         <v-text-field
@@ -46,6 +46,13 @@ export default {
       password: '',
       errorMessage: '',
     };
+  },
+  created() {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.$router.push({ name: 'todos' });
+      }
+    });
   },
   methods: {
     async doLogin() {

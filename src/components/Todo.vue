@@ -18,13 +18,17 @@
               autofocus
               />
           </v-col>
-          <v-col id="2" cols="2">
+          <v-col
+            class="d-flex flex-row-reverse"
+            id="2"
+            cols="2"
+          >
             <v-menu
               class="test"
               transition="slide-x-transition"
               bottom left
               nudge-bottom="60"
-              nudge-left="70"
+              nudge-left="10"
               rounded="b-xl"
               :close-on-content-click="false"
             >
@@ -33,7 +37,7 @@
                   large
                   right
                   icon
-                  light
+                  dark
                   v-bind="attrs"
                   v-on="on"
                 ><v-icon>mdi-calendar</v-icon></v-btn>
@@ -48,19 +52,24 @@
               large
               right
               icon
+              dark
               @click="createTodo"
             ><v-icon>mdi-plus-thick</v-icon></v-btn>
           </v-col>
         </v-row>
         <v-row>
-          <v-col key=1 align-self="end">
-            <v-switch
-              v-model="tasksHidden"
-              inset
-              label="Hide completed"
-            />
+          <v-col cols="5">
+            <v-row>
+              <h3 class="switch-label">Hide Completed Items</h3>
+              <v-switch
+                  class="my-switch"
+                  v-model="tasksHidden"
+                  inset
+                />
+            </v-row>
           </v-col>
-          <v-col key=2 align-self="end">
+          <v-spacer/>
+          <v-col class="d-flex flex-row-reverse" align-self="end">
             <v-dialog
               v-model="clearAllDialog"
               width="500"
@@ -90,6 +99,8 @@
             </v-dialog>
           </v-col>
         </v-row>
+        <br/>
+        <v-divider color="white"/>
         <br/>
         <div>
           <v-row>
